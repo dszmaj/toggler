@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  toggler:
+    build: .
+    volumes:
+      - .:/app:rw
+    ports:
+      - 8080:8080
+    networks:
+      - postgres
+
+  db:
+    image: postgres:9.6
+    container_name: toggler_postgres
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - postgres
+
+volumes:
+  postgres-data:
+
+networks:
+  postgres:

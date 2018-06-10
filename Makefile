@@ -1,5 +1,5 @@
 install:
-	pip install -r requirements.txt
+	pip install --no-cache-dir -r requirements.txt
 
 make migrate:
 	python manage.py makemigrations
