@@ -30,6 +30,16 @@ services:
     depends_on:
       - makemigrations
 
+  test:
+    build: .
+    command: py.test
+    volumes:
+      - .:/app:rw
+    networks:
+      - postgres
+    depends_on:
+      - migrate
+
   toggler:
     build: .
     volumes:
@@ -39,7 +49,7 @@ services:
     networks:
       - postgres
     depends_on:
-      - migrate
+      - test
 
 volumes:
   postgres-data:

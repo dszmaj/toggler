@@ -7,5 +7,8 @@ migrations:
 migrate:
 	docker-compose run --rm migrate
 
+test:
+	docker-compose run --rm test
+
 start:
 	docker-compose up
