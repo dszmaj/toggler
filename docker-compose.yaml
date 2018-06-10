@@ -9,6 +9,8 @@ services:
       - 8080:8080
     networks:
       - postgres
+    depends_on:
+      - migrate
 
   db:
     image: postgres:9.6
@@ -17,6 +19,24 @@ services:
       - postgres-data:/var/lib/postgresql/data
     networks:
       - postgres
+
+  makemigrations:
+    build: .
+    command: python manage.py makemigrations
+    volumes:
+      - .:/app:rw
+    networks:
+      - postgres
+
+  migrate:
+    build: .
+    command: python manage.py migrate
+    volumes:
+      - .:/app:rw
+    networks:
+      - postgres
+    depends_on:
+      - makemigrations
 
 volumes:
   postgres-data:
