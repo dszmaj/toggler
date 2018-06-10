@@ -1,22 +1,12 @@
 version: "3"
 
 services:
-  toggler:
-    build: .
-    volumes:
-      - .:/app:rw
-    ports:
-      - 8080:8080
-    networks:
-      - postgres
-    depends_on:
-      - migrate
-
   db:
-    image: postgres:9.6
-    container_name: toggler_postgres
+    image: postgres:10
     volumes:
       - postgres-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=postgres
     networks:
       - postgres
 
@@ -27,6 +17,8 @@ services:
       - .:/app:rw
     networks:
       - postgres
+    depends_on:
+      - db
 
   migrate:
     build: .
@@ -37,6 +29,17 @@ services:
       - postgres
     depends_on:
       - makemigrations
+
+  toggler:
+    build: .
+    volumes:
+      - .:/app:rw
+    ports:
+      - 8080:8080
+    networks:
+      - postgres
+    depends_on:
+      - migrate
 
 volumes:
   postgres-data:
